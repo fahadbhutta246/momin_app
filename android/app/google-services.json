@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1060177128327",
+    "project_id": "momin-app-cb699",
+    "storage_bucket": "momin-app-cb699.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1060177128327:android:ea9d2add598b149e8a0122",
+        "android_client_info": {
+          "package_name": "com.example.momin_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1060177128327-sa7fcg0us79t5omooe324s1cl17dm0lu.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.momin_app",
+            "certificate_hash": "f1399fe18766f93c12960febed858d27866198e1"
+          }
+        },
+        {
+          "client_id": "1060177128327-rqanooe1nvsuuffhikjvi1vmeanf0fts.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBYBR78CiLqb3sD9A8CIA6e0257lNebn7g"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1060177128327-rqanooe1nvsuuffhikjvi1vmeanf0fts.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
