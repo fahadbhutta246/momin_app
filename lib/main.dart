@@ -51,14 +51,15 @@ class MyApp extends StatelessWidget {
           fontFamily: 'Alice',
           colorScheme: ColorScheme.fromSwatch()
               .copyWith(secondary: Colors.orangeAccent)),
-      home: AuthPage(
-        routes: {
-          '/release': (ctx) => const Card(),
-          '/mine': (ctx) => const MyInfoScreen(),
-          '/add': (ctx) => const AddForm(),
-          '/main': (ctx) => const TabScreen(),
-        },
-      ),
+      // home: const AuthPage(),
+      initialRoute: '/',
+      routes: {
+        '/': (ctx) => const AuthPage(),
+        '/release': (ctx) => const Card(),
+        '/mine': (ctx) => const MyInfoScreen(),
+        '/add': (ctx) => const AddForm(),
+        '/main': (ctx) => const TabScreen(),
+      },
     );
   }
 }

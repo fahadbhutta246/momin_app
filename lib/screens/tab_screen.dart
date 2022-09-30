@@ -39,7 +39,7 @@ class _TabScreenState extends State<TabScreen> {
               ),
               Tab(
                   icon: Icon(Icons.food_bank),
-                  text: 'Eatables'
+                  text: 'Users'
               ),
               Tab(
                   icon: Icon(Icons.format_quote),

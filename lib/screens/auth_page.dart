@@ -4,7 +4,7 @@ import 'package:momin_app/screens/auth.dart';
 import 'package:momin_app/screens/tab_screen.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({Key? key, required Map<String, Widget Function(dynamic ctx)> routes}) : super(key: key);
+  const AuthPage({Key? key});
 
   @override
   State<AuthPage> createState() => _AuthPageState();
@@ -12,17 +12,21 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   var authHandler = Auth();
-
-
-
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+
+  // Map<String, signInWithEmailAndPassword>
+
+
+
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Authentication'),
+        automaticallyImplyLeading: false,
+        backgroundColor: Colors.teal,
+        title: const Text('AUTHENTICATE YOURSELF'),
       ),
       body: SizedBox(
         height: double.infinity,
@@ -30,13 +34,14 @@ class _AuthPageState extends State<AuthPage> {
         child: SingleChildScrollView(
           child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.purple[100],
+              // backgroundBlendMode: BlendMode.color,
+                borderRadius: BorderRadius.circular(38),
+                color: Colors.teal,
                 boxShadow: const [
                   BoxShadow(
-                    color: Colors.grey,
-                    spreadRadius: 7,
-                    blurRadius: 10,
+                    color: Colors.black,
+                    spreadRadius: 25,
+                    blurRadius: 25,
                   )
                 ]
             ),
@@ -52,11 +57,12 @@ class _AuthPageState extends State<AuthPage> {
                 TextFormField(
                   controller: emailController,
                   decoration: const InputDecoration(
-                    labelText: 'Enter Email',
+                    labelText: 'Email',
                     labelStyle: TextStyle(
-                      fontFamily: 'Architect',
+                      color: Colors.white,
+                      fontFamily: 'PT Sans',
                     ),
-                    icon: Icon(Icons.email),
+                    icon: Icon(Icons.email,color: Colors.white,),
                   ),
                   keyboardType: TextInputType.emailAddress,
                 ),
@@ -66,11 +72,12 @@ class _AuthPageState extends State<AuthPage> {
                 TextFormField(
                   controller: passwordController,
                   decoration: const InputDecoration(
-                      labelText: 'Enter Password',
+                      labelText: 'Password',
                       labelStyle: TextStyle(
-                        fontFamily: 'Architect',
+                        color: Colors.white,
+                        fontFamily: 'PT Sans',
                       ),
-                      icon: Icon(Icons.text_rotation_angledown)
+                      icon: Icon(Icons.text_rotation_angledown,color: Colors.white,)
                   ),
                   obscureText: true,
                   keyboardType: TextInputType.text,
@@ -83,15 +90,19 @@ class _AuthPageState extends State<AuthPage> {
                   onPressed: () {
                     authHandler.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text)
                     .then((User? user) {
-                      Navigator.popUntil(
-                          context, ModalRoute.withName('/main'));
+                      Navigator.pushNamed(context, '/main');
+                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const TabScreen()  ));
                     }).catchError((e) => print(e));
                   },
-                  child: const Text('SIGN IN'),
+                  child: const Text('Way To Shop',
+                  style: TextStyle(color: Colors.white) ,
+                  ),
                 ),
                 const SizedBox(
                   height: 20,
                 ),
+
+
 
 
                 const SizedBox(

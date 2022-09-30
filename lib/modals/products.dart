@@ -5,7 +5,7 @@ class Products{
   final String name;
   final double price;
   double quantity;
-  final DateTime expireDate;
+  final DateTime? expireDate;
   final String qr;
   final String description;
 

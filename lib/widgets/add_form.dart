@@ -13,22 +13,27 @@ class AddForm extends StatefulWidget {
     super.key,
     this.addProduct,
   });
-}
-//
-// @override
-// class
-
-
 
   @override
-class _AddFormState extends State<AddForm> {
+  State<StatefulWidget> createState() => _AddFormState();
 
-  TextEditingController qrController = TextEditingController();
+  // @override
+  // _AddFormState createState() => _AddFormState();
+}
+
+@override
+class _AddFormState extends State<AddForm> {
   final _formKey = GlobalKey<FormState>();
   var _hasExpireDate = false;
   String? barResult;
 
-  var _editValues = Products(
+  var name = TextEditingController();
+  var price = TextEditingController();
+  var quantity = TextEditingController();
+  var description = TextEditingController();
+  var qr = TextEditingController();
+
+  Products _editValues = Products(
       id: DateTime.now().toString(),
       name: '',
       quantity: 0,
@@ -36,14 +41,14 @@ class _AddFormState extends State<AddForm> {
       qr: '',
       expireDate: DateTime.now(),
       description: '');
-  late DateTime _selectedDate;
+  DateTime? _selectedDate;
 
   void _dateTimePicker() {
     showDatePicker(
       context: context,
       initialDate: DateTime.now(),
       firstDate: DateTime.now(),
-      lastDate: DateTime(2024),
+      lastDate: DateTime(2099),
     ).then((pickedDate) {
       if (pickedDate == null) {
         return;
@@ -64,15 +69,14 @@ class _AddFormState extends State<AddForm> {
       result = "Failed to get platform version";
     }
     if (status.isGranted) {
-      return
-        setState(() {
-          barResult = result;
-        });
-    }
-    else {
-      barResult = (await Permission.camera.status) as String?;
+      return setState(() {
+        qr.text = result;
+      });
+    } else {
+      qr.text = ((await Permission.camera.status) as String?)!;
     }
   }
+
   void _addToList() {
     var isValid = _formKey.currentState?.validate();
     if (!isValid!) {
@@ -80,7 +84,6 @@ class _AddFormState extends State<AddForm> {
     }
     _formKey.currentState?.save();
 
-    FirebaseFirestore.instance.collection('Users');
     Products(
         id: _editValues.id,
         name: _editValues.name,
@@ -89,217 +92,243 @@ class _AddFormState extends State<AddForm> {
         expireDate: _selectedDate,
         description: _editValues.description,
         quantity: _editValues.quantity);
-
-
+  }
 
   @override
   Widget build(BuildContext context) {
     //print(_selectedDate);
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.teal,
+        title: const Text('ENTER YOUR PRODUCT HERE'),
+      ),
       body: SafeArea(
         child: Container(
-          padding: const EdgeInsets.symmetric(vertical: 10.0,horizontal: 10.0),
-          color: Colors.orangeAccent,
-            child:
-              Form(
-                key: _formKey,
-                child: Column(
-                  children: [
-                    TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty || value.length != 3) {
-                          return 'enter valid name';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.text,
-                      decoration: const InputDecoration(
-                          labelText: 'product name',
-                          labelStyle: TextStyle(fontFamily: 'Architect')),
-                      onSaved: (value) {
-                        _editValues = Products(
-                          id: _editValues.id,
-                          name: value!,
-                          description: _editValues.description,
-                          expireDate: _editValues.expireDate,
-                          qr: _editValues.qr,
-                          price: _editValues.price,
-                          quantity: _editValues.quantity,
-                        );
-                      },
-                    ),
-                    TextFormField(
-                      initialValue: barResult,
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'enter valid price';
-                        }
-                        if (double.tryParse(value) == null) {
-                          return 'enter valid price';
-                        }
-                        if (double.tryParse(value)! <= 0) {
-                          return 'enter valid price';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                          labelText: 'price',
-                          labelStyle: TextStyle(fontFamily: 'Architect')),
-                      onSaved: (value) {
-                        _editValues = Products(
-                          id: _editValues.id,
-                          name: _editValues.name,
-                          description: _editValues.description,
-                          expireDate: _editValues.expireDate,
-                          qr: _editValues.qr,
-                          price: double.parse(value!),
-                          quantity: _editValues.quantity,
-                        );
-                      },
-                    ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'enter valid quantity';
-                        }
-                        if (double.tryParse(value) == null) {
-                          return 'enter valid quantity';
-                        }
-                        if (double.tryParse(value)! <= 0) {
-                          return 'enter valid quantity';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.number,
-                      decoration: const InputDecoration(
-                          labelText: 'quantity',
-                          labelStyle: TextStyle(fontFamily: 'Architect')),
-                      onSaved: (value) {
-                        _editValues = Products(
-                          id: _editValues.id,
-                          name: _editValues.name,
-                          description: _editValues.description,
-                          expireDate: _editValues.expireDate,
-                          qr: _editValues.qr,
-                          price: _editValues.price,
-                          quantity: double.parse(value!),
-                        );
-                      },
-                    ),
-                    TextFormField(
-                      validator: (value) {
-                        if (value!.isEmpty) {
-                          return 'enter valid description';
-                        }
-                        if (value.length < 5) {
-                          return 'enter valid description';
-                        }
-                        return null;
-                      },
-                      keyboardType: TextInputType.text,
-                      maxLines: 3,
-                      decoration: const InputDecoration(
-                          labelText: 'description',
-                          labelStyle: TextStyle(fontFamily: 'Architect')),
-                      onSaved: (value) {
-                        _editValues = Products(
-                          id: _editValues.id,
-                          name: _editValues.name,
-                          description: value!,
-                          expireDate: _editValues.expireDate,
-                          price: _editValues.price,
-                          quantity: _editValues.quantity,
-                          qr: '',
-                        );
-                      },
-                    ),
-                    TextFormField( controller: qrController,
-                      decoration: const InputDecoration(
-                          labelText: 'QR Code Of The Product',
-                          labelStyle: TextStyle(fontFamily: 'Architect')),
-                      onSaved: (value) {
-                        _editValues = Products(
-                          id: _editValues.id,
-                          name: _editValues.name,
-                          description: _editValues.description,
-                          expireDate: _editValues.expireDate,
-                          qr: value!,
-                          price: _editValues.price,
-                          quantity: _editValues.quantity,
-                        );
-                      },
-                    ),
-                    MaterialButton(
-                      onPressed: barCodeScanner,
-                      child: const Text("Scan Product Here"),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Row(
-                      mainAxisAlignment: _hasExpireDate
-                          ? MainAxisAlignment.center
-                          : MainAxisAlignment.spaceAround,
+          padding: const EdgeInsets.symmetric(vertical: 10.0, horizontal: 10.0),
+          color: Colors.white,
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: [
+                TextFormField(
+                  controller: name,
+                  validator: (value) {
+                    if (value!.isEmpty || value.length != 3) {
+                      return 'enter valid name';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.text,
+                  decoration: const InputDecoration(
+                      labelText: 'product name',
+                      labelStyle: TextStyle(fontFamily: 'Architect')),
+                  onSaved: (value) {
+                    _editValues = Products(
+                      id: _editValues.id,
+                      name: value!,
+                      description: _editValues.description,
+                      expireDate: _editValues.expireDate,
+                      qr: _editValues.qr,
+                      price: _editValues.price,
+                      quantity: _editValues.quantity,
+                    );
+                  },
+                ),
+                TextFormField(
+                  controller: price,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'enter valid price';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'enter valid price';
+                    }
+                    if (double.tryParse(value)! <= 0) {
+                      return 'enter valid price';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      labelText: 'price',
+                      labelStyle: TextStyle(fontFamily: 'Architect')),
+                  onSaved: (value) {
+                    _editValues = Products(
+                      id: _editValues.id,
+                      name: _editValues.name,
+                      description: _editValues.description,
+                      expireDate: _editValues.expireDate,
+                      qr: _editValues.qr,
+                      price: double.parse(value!),
+                      quantity: _editValues.quantity,
+                    );
+                  },
+                ),
+                TextFormField(
+                  controller: quantity,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'enter valid quantity';
+                    }
+                    if (double.tryParse(value) == null) {
+                      return 'enter valid quantity';
+                    }
+                    if (double.tryParse(value)! <= 0) {
+                      return 'enter valid quantity';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.number,
+                  decoration: const InputDecoration(
+                      labelText: 'quantity',
+                      labelStyle: TextStyle(fontFamily: 'Architect')),
+                  onSaved: (value) {
+                    _editValues = Products(
+                      id: _editValues.id,
+                      name: _editValues.name,
+                      description: _editValues.description,
+                      expireDate: _editValues.expireDate,
+                      qr: _editValues.qr,
+                      price: _editValues.price,
+                      quantity: double.parse(value!),
+                    );
+                  },
+                ),
+                TextFormField(
+                  controller: description,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'enter valid description';
+                    }
+                    if (value.length < 5) {
+                      return 'enter valid description';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.text,
+                  maxLines: 3,
+                  decoration: const InputDecoration(
+                      labelText: 'description',
+                      labelStyle: TextStyle(fontFamily: 'Architect')),
+                  onSaved: (value) {
+                    _editValues = Products(
+                      id: _editValues.id,
+                      name: _editValues.name,
+                      description: value!,
+                      expireDate: _editValues.expireDate,
+                      price: _editValues.price,
+                      quantity: _editValues.quantity,
+                      qr: '',
+                    );
+                  },
+                ),
+                TextFormField(
+                  controller: qr,
+                  validator: (value) {
+                    if (value!.isEmpty) {
+                      return 'enter valid barcode';
+                    }
+                    if (double.tryParse(value)! < 0) {
+                      return 'enter valid barcode';
+                    }
+                    return null;
+                  },
+                  decoration: const InputDecoration(
+                      labelText: 'QR Code Of The Product',
+                      labelStyle: TextStyle(fontFamily: 'Architect')),
+                  onSaved: (value) {
+                    _editValues = Products(
+                      id: _editValues.id,
+                      name: _editValues.name,
+                      description: _editValues.description,
+                      expireDate: _editValues.expireDate,
+                      qr: value!,
+                      price: _editValues.price,
+                      quantity: _editValues.quantity,
+                    );
+                  },
+                ),
+                MaterialButton(
+                  onPressed: barCodeScanner,
+                  child: const Text("Scan Product Here"),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Row(
+                  mainAxisAlignment: _hasExpireDate
+                      ? MainAxisAlignment.center
+                      : MainAxisAlignment.spaceAround,
+                  children: <Widget>[
+                    Column(
                       children: <Widget>[
-                        Column(
-                          children: <Widget>[
-                            Switch(
-                              value: _hasExpireDate,
-                              onChanged: (value) {
-                                setState(() {
-                                  _hasExpireDate = !_hasExpireDate;
-                                });
-                              },
-                              activeColor: Colors.pink,
-                            ),
-                            const Text(
-                              'has expire date',
-                              style: TextStyle(fontFamily: 'Architect'),
-                            )
-                          ],
+                        Switch(
+                          value: _hasExpireDate,
+                          onChanged: (value) {
+                            setState(() {
+                              _hasExpireDate = !_hasExpireDate;
+                            });
+                          },
+                          activeColor: Colors.pink,
                         ),
-                        _hasExpireDate
-                            ? TextButton(
-                          onPressed: _dateTimePicker,
-                                  child: const Text(
-                            'select date',
-                            style: TextStyle(fontFamily: 'Architect'),
-                          ),
+                        const Text(
+                          'has expire date',
+                          style: TextStyle(fontFamily: 'Architect'),
                         )
-                            : Container(),
                       ],
                     ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-
-                    FloatingActionButton(
-                      onPressed: _addToList,
-                      splashColor: Colors.red[800],
-                      child: const Text(
-                          'Add',
-                        style: TextStyle( color: Colors.black,
-                      )
-                      )
-
-                    )
+                    _hasExpireDate
+                        ? TextButton(
+                            onPressed: _dateTimePicker,
+                            child: const Text(
+                              'select date',
+                              style: TextStyle(fontFamily: 'Architect'),
+                            ),
+                          )
+                        : Container(),
                   ],
-                  )
-                )
-              ),
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                TextButton(
+                  style: TextButton.styleFrom(
+                    backgroundColor: Colors.teal,
+                  ),
+                  onPressed: () {
+                    _addToList();
 
+                    final product = <String, dynamic>{
+                      "id": DateTime.now(),
+                      "name": name.text,
+                      "price": price.text,
+                      "quantity": quantity.text,
+                      "description": description.text,
+                      "qr": qr.text,
+                      "expiry_date": _selectedDate,
+                    };
+
+                    debugPrint("${product.toString()} in");
+
+                    FirebaseFirestore.instance
+                        .collection("products")
+                        .doc(name.text)
+                        .set(product)
+                        .onError(
+                            (e, _) => debugPrint("Error writing document: $e"));
+                  },
+                  child: const Text(
+                    'Add',
+                    style: TextStyle(
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
           ),
-        );
-
+        ),
+      ),
+    );
   }
-
 }
-
-}
-
-
-
-
-
-

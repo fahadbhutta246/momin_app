@@ -77,7 +77,7 @@ class StoreItem extends StatelessWidget {
             ),
           ),
         ),
-        Container(
+        SizedBox(
           width: double.infinity,
           child: InkWell(
             onTap: (){

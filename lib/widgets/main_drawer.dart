@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
 
+import '../screens/auth.dart';
+
 class MainDrawer extends StatelessWidget {
+  MainDrawer({super.key});
+
+  var authHandler = Auth();
+
   @override
   Widget build(BuildContext context) {
     return Drawer(
@@ -10,47 +16,64 @@ class MainDrawer extends StatelessWidget {
             color: Colors.blueAccent,
             height: 150,
             width: double.infinity,
-            padding: EdgeInsets.all(10),
+            padding: const EdgeInsets.all(10),
             alignment: Alignment.center,
-            child: Text(
-                'Keep It Real! :)',
+            child: const Text(
+              'Keep It Real! :)',
               style: TextStyle(
-                fontFamily: 'Fredrika',
+                fontFamily: 'Fredrik',
                 fontSize: 25,
                 color: Colors.white,
               ),
             ),
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.shopping_basket),
-            title: Text('Available Products'),
-            onTap: (){
+            leading: const Icon(Icons.shopping_basket),
+            title: const Text('Available Products'),
+            onTap: () {
               Navigator.of(context).pushNamed('/main');
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.point_of_sale_sharp),
-            title: Text('Total Sales'),
-            onTap: (){
+            leading: const Icon(Icons.point_of_sale_sharp),
+            title: const Text('Total Sales'),
+            onTap: () {
               Navigator.of(context).pushNamed('/sale');
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.contact_phone),
-            title: Text('Hamza\'s Contact'),
-            onTap: (){
+            leading: const Icon(Icons.contact_phone),
+            title: const Text('Hamza\'s Contact'),
+            onTap: () {
               Navigator.of(context).pushNamed('/contact');
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(Icons.developer_board),
-            title: Text('About The Developer'),
-            onTap: (){
+            leading: const Icon(Icons.developer_board),
+            title: const Text('About The Developer'),
+            onTap: () {
               Navigator.of(context).pushNamed('/mine');
+            },
+          ),
+          const Divider(),
+          ListTile(
+            leading: const Icon(Icons.developer_board),
+            title: const Text('Sign Out'),
+            onTap: () async {
+              String result = await authHandler.signOut();
+              if (result == "true") {
+                Navigator.of(context)
+                    .pushNamedAndRemoveUntil('/', (_) => false);
+              } else {
+                final snackBar = SnackBar(
+                  content: Text(result),
+                );
+                ScaffoldMessenger.of(context).showSnackBar(snackBar);
+              }
             },
           )
         ],

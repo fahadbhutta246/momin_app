@@ -11,14 +11,27 @@ class Auth {
     required String email,
     required String password,
   }) async {
-    UserCredential result = await _firebaseAuth.createUserWithEmailAndPassword(
+    UserCredential result = await _firebaseAuth.signInWithEmailAndPassword(
         email: email, password: password);
     final User user = result.user!;
 
     return user;
   }
 
-  void signOut() async {
-    await _firebaseAuth.signOut();
+  Future<String> signOut() async {
+    try {
+      await _firebaseAuth.signOut();
+      return true.toString();
+    } on FirebaseAuthException catch(e) {
+      return e.message!;
+    }
   }
+
+  // User? getUser() {
+  //   try {
+  //     return _firebaseAuth.currentUser;
+  //   } on FirebaseAuthException {
+  //     return null;
+  //   }
+  // }
 }

@@ -15,7 +15,6 @@ class _QrClassState extends State<QrClass> {
 
 
 
-  // TODO QR
   Barcode? result;
   QRViewController? controller;
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
