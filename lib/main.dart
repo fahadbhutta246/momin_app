@@ -1,13 +1,15 @@
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart'
+    hide EmailAuthProvider, PhoneAuthProvider;
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:momin_app/screens/auth_page.dart';
+import 'package:momin_app/screens/items_availabe.dart';
 import 'package:momin_app/screens/my_info.dart';
 import 'package:momin_app/screens/tab_screen.dart';
 import 'package:momin_app/widgets/add_form.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'dart:async';
-import 'package:firebase_auth/firebase_auth.dart'
-    hide EmailAuthProvider, PhoneAuthProvider;
-import 'package:momin_app/screens/auth_page.dart';
 
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
@@ -17,6 +19,7 @@ class ApplicationState extends ChangeNotifier {
   FirebaseFirestore db = FirebaseFirestore.instance;
 
   bool _loggedIn = false;
+
   bool get loggedIn => _loggedIn;
 
   Future<void> init() async {
@@ -59,6 +62,7 @@ class MyApp extends StatelessWidget {
         '/mine': (ctx) => const MyInfoScreen(),
         '/add': (ctx) => const AddForm(),
         '/main': (ctx) => const TabScreen(),
+        '/items': (ctx) => const ItemsAvailable(),
       },
     );
   }

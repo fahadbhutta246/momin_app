@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Products{
+class Products {
   final String id;
   final String name;
   final double price;
@@ -18,4 +18,22 @@ class Products{
     required this.description,
     required this.quantity,
   });
+
+  factory Products.fromSnapshot(DocumentSnapshot docs) {
+    return Products(
+      id: DateTime.parse((docs['id'] as Timestamp).toDate().toString())
+          .toLocal()
+          .toString(),
+      name: docs['name'],
+      price: double.parse(docs['price']),
+      expireDate: docs['expiry_date'] == null
+          ? null
+          : (docs['expiry_date'] as Timestamp).toDate(),
+      qr: docs['qr'],
+      description: docs['description'],
+      quantity: double.parse(docs['quantity']),
+
+      // this.id, this.name, this.price, this.expireDate, this.qr, this.description)
+    );
+  }
 }
