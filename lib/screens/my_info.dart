@@ -12,17 +12,15 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
   Widget build(BuildContext context) {
     return Expanded(
       child: Scaffold(
-          appBar: AppBar(title: Text('DEVELOPER\'s INFORMATION'),),
+          appBar: AppBar(title: const Text('DEVELOPER\'s INFORMATION'),),
           body: Column(
             children: [
 
-              Container(
-                child: Text('My Name Is Fahad'),
-              ),
+              const Text('My Name Is Fahad'),
               Container(
                 height: 120.0,
                 width: 120.0,
-                decoration: BoxDecoration(
+                decoration: const BoxDecoration(
                   image: DecorationImage(
                     image: AssetImage(
                         'assests/images/fadii.png'),
@@ -33,7 +31,7 @@ class _MyInfoScreenState extends State<MyInfoScreen> {
               ),
               Container(
 
-                  child: TextButton(child: Text('Fahad\'s Contact'),
+                  child: TextButton(child: const Text('Fahad\'s Contact'),
                     onPressed: () {
                       Navigator.of(context).pushNamed('/cont');
                     },)

@@ -41,9 +41,9 @@ dependencies:
   barcode_widget: ^2.0.2
   flutter_barcode_scanner: ^2.0.0
   permission_handler: ^10.0.1
-  firebase_core: ^1.23.0
-  firebase_auth: ^3.10.0
-  cloud_firestore: ^3.4.9
+  firebase_core: ^2.1.1
+  firebase_auth: ^4.1.0
+  cloud_firestore: ^4.0.3
   firebase_ui_auth: ^1.0.0-dev.0
   google_fonts: ^3.0.1
 

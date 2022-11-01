@@ -4,7 +4,7 @@ import 'package:momin_app/screens/auth.dart';
 import 'package:momin_app/screens/tab_screen.dart';
 
 class AuthPage extends StatefulWidget {
-  const AuthPage({Key? key});
+  const AuthPage({super.key, Key});
 
   @override
   State<AuthPage> createState() => _AuthPageState();
@@ -102,7 +102,18 @@ class _AuthPageState extends State<AuthPage> {
                   height: 20,
                 ),
 
-
+                TextButton(
+                  onPressed: () {
+                    authHandler.signInWithEmailAndPassword(email: emailController.text, password: passwordController.text)
+                        .then((User? user) {
+                      Navigator.pushNamed(context, '/');
+                      // Navigator.push(context, MaterialPageRoute(builder: (BuildContext context) => const TabScreen()  ));
+                    }).catchError((e) => print(e));
+                  },
+                  child: const Text('Join Our Family',
+                    style: TextStyle(color: Colors.white) ,
+                  ),
+                ),
 
 
                 const SizedBox(

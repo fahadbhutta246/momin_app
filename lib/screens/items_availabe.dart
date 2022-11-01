@@ -17,12 +17,13 @@ class _ItemsAvailableState extends State<ItemsAvailable> {
 
   void getProducts() async {
     var productsFromFirebase = await db.collection("products").get();
+    print('fahad $productsFromFirebase');
 
+    print(productsFromFirebase);
     if (productsFromFirebase.docs.isNotEmpty) {
       productList.clear();
       for (var doc in productsFromFirebase.docs) {
-        productList.add(Products.fromSnapshot(
-            doc)); //without '.data()' because you have it in your model.
+        productList.add(Products.fromSnapshot(doc)); //without '.data()' because you have it in your model.
       }
     } //prints the length of your products list.
   }
@@ -31,6 +32,7 @@ class _ItemsAvailableState extends State<ItemsAvailable> {
     await Future.delayed(const Duration(seconds: 1));
     setState(() {
       getProducts();
+      print(productList);
     });
   }
 
@@ -50,6 +52,8 @@ class _ItemsAvailableState extends State<ItemsAvailable> {
 
   @override
   Widget build(BuildContext context) {
+    print(productList);
+
     return RefreshIndicator(
       onRefresh: refreshList,
       child: ListView.builder(
@@ -73,12 +77,14 @@ class _ItemsAvailableState extends State<ItemsAvailable> {
         ),
         children: <Widget>[
           ListTile(
-            title: Text(
+
+          title:Text(
               "Price: ${items.price} - Quantity: ${items.quantity}",
               style: const TextStyle(fontWeight: FontWeight.w700),
+
             ),
           ),
-        ],
+          ],
       ),
     );
   }

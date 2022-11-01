@@ -50,7 +50,7 @@ class _TabScreenState extends State<TabScreen> {
             )
           ],
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: [
             ItemsAvailable(),
             BarCodeScanner(),
