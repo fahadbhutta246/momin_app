@@ -81,8 +81,7 @@ class StoreItem extends StatelessWidget {
           width: double.infinity,
           child: InkWell(
             onTap: (){
-
-            },
+              },
             child: const Icon(
                 Icons.add_shopping_cart,
               color: Colors.red,

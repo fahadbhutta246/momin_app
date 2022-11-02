@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+import 'package:momin_app/screens/good_quotes.dart';
+import 'package:momin_app/screens/steps_counter.dart';
 import '../widgets/barcode_qrcode.dart';
 import '../widgets/main_drawer.dart';
 import 'items_availabe.dart';
@@ -23,6 +24,7 @@ class _TabScreenState extends State<TabScreen> {
             'Momin App',
             textAlign: TextAlign.center,
           ),
+
           bottom: const TabBar(
             tabs: <Widget>[
               Tab(
@@ -57,15 +59,11 @@ class _TabScreenState extends State<TabScreen> {
             Center(
               child: Icon(Icons.production_quantity_limits),
             ),
-            Center(
-              child: Icon(Icons.point_of_sale),
-            ),
+            Steps_Counter(),
             Center(
               child: Icon(Icons.food_bank),
             ),
-            Center(
-              child: Icon(Icons.format_quote_sharp),
-            ),
+            Good_Quotes(),
           ],
         ),
       ),

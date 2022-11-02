@@ -23,7 +23,8 @@ class _ItemsAvailableState extends State<ItemsAvailable> {
     if (productsFromFirebase.docs.isNotEmpty) {
       productList.clear();
       for (var doc in productsFromFirebase.docs) {
-        productList.add(Products.fromSnapshot(doc)); //without '.data()' because you have it in your model.
+        productList.add(Products.fromSnapshot(
+            doc)); //without '.data()' because you have it in your model.
       }
     } //prints the length of your products list.
   }
@@ -57,35 +58,38 @@ class _ItemsAvailableState extends State<ItemsAvailable> {
     return RefreshIndicator(
       onRefresh: refreshList,
       child: ListView.builder(
-        itemCount: productList.length,
-        itemBuilder: (context, index) {
-          // return ListTile(
-          //   title: Text("${snapshot.data?.docs[index]['name']}"),
-          // );
-          return _buildProductsList(productList[index]);
-        },
-      ),
+          itemCount: productList.length,
+          itemBuilder: (context, index) {
+            // return ListTile(
+            //   title: Text("${snapshot.data?.docs[index]['name']}"),
+            // );
+            return _buildProductsList(productList[index]);
+          }),
     );
   }
 
   Widget _buildProductsList(Products items) {
     return Card(
       child: ExpansionTile(
-        title: Text(
-          items.name,
-          style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
-        ),
-        children: <Widget>[
-          ListTile(
-
-          title:Text(
-              "Price: ${items.price} - Quantity: ${items.quantity}",
-              style: const TextStyle(fontWeight: FontWeight.w700),
-
-            ),
+          title: Text(
+            items.name,
+            style: const TextStyle(fontSize: 16.0, fontWeight: FontWeight.w500),
           ),
-          ],
-      ),
+          children: <Widget>[
+            ListTile(
+              contentPadding: EdgeInsets.zero,
+              title: Text(
+                "Price: ${items.price} - Quantity: ${items.quantity}",
+                style: const TextStyle(fontWeight: FontWeight.w700),
+              ),
+              leading: IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  FirebaseFirestore.instance.collection('Sales');
+                },
+              ),
+            ),
+          ]),
     );
   }
 }
